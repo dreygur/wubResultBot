@@ -21,7 +21,9 @@ def root():
 @app.route("/<roll>")
 def search(roll):
     result = json.dumps([dict(row) for row in db.fetch(roll)][0])
-    return jsonify({"messages": [{"text": result[11:-2]}]})
+    result = result[11:-2].replace('"', '')
+    result = result.replace(', ', "\n")
+    return jsonify({"messages": [{"text": result}]})
 
 # Run app
 if __name__ == "__main__":
