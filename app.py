@@ -25,7 +25,7 @@ def root():
 
 # Run app
 if __name__ == "__main__":
-    app.port = int(os.getenv('PORT', 5000))
+    app.port = int(os.environ.get('PORT', 5000))
     app.run(debug=True)
 
 
