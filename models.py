@@ -17,7 +17,7 @@ class Model:
         self.base = os.path.abspath(os.path.dirname(__file__))
         self.db = sqlite3.connect(os.path.join(self.base, self.name), check_same_thread=False)
         self.db.row_factory = sqlite3.Row
-    
+
     def create(self):
         """
             Creates Tables with data in Database
@@ -43,13 +43,13 @@ class Model:
                                        ON sm1.id=sm3.id
                                        WHERE sm1.roll = %s""" % roll)
         return self.data.fetchall()
-    
+
     def insert(self):
         """
             Inserts data into Database
         """
         pass
-    
+
     def done(self):
         """
             Closes opened Database
