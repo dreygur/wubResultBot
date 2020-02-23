@@ -16,9 +16,6 @@ import routes
 
 # Run app
 if __name__ == "__main__":
-    # try:
-    #     db.create()
-    # except sqlite3.OperationalError:
-    #     pass
+    app.port = int(os.getenv('PORT', 5000))
     app.run(debug=True)
     db.done()
