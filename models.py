@@ -36,12 +36,12 @@ class Model:
         """
         self.c = self.db.cursor()
         # self.data = self.c.execute("SELECT * FROM `semester1` WHERE roll = '%s'" % roll)
-        self.data = self.c.execute(f"""SELECT * FROM `semester1` AS sm1
+        self.data = self.c.execute("""SELECT * FROM `semester1` AS sm1
                                        LEFT JOIN `semester2` AS sm2
                                        ON sm1.id=sm2.id
                                        LEFT JOIN `semester3` AS sm3
                                        ON sm1.id=sm3.id
-                                       WHERE sm1.roll = {roll}""")
+                                       WHERE sm1.roll = %s""" % roll)
         return self.data.fetchall()
     
     def insert(self):

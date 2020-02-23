@@ -1,10 +1,10 @@
 from __main__ import app, db
-from flask import jsonify
+from flask import jsonify, render_template
 
 @app.route('/')
 def root():
     # return str(db.fetch())
-    return "<center><h1>Hola Amigo!</h1></center>"
+    return render_template('index.html')
 
 @app.route("/<roll>")
 def search(roll):
