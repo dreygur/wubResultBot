@@ -4,7 +4,7 @@ import sys
 from flask import Flask, jsonify, render_template
 
 # Stop writing Object Code
-sys.dont_write_bytecode = True
+# sys.dont_write_bytecode = True
 
 # Project Specific modules
 # from models import Model
