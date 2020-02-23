@@ -8,4 +8,4 @@ def root():
 
 @app.route("/<roll>")
 def search(roll):
-    return jsonify([ dict(row) for row in db.fetch(roll) ])
+    return jsonify({"messages": [ dict(row) for row in db.fetch(roll) ]})
