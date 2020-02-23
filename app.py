@@ -19,7 +19,7 @@ def root():
 
 @app.route("/<roll>")
 def search(roll):
-    return jsonify({"messages": [dict(row) for row in db.fetch(roll)]})
+    return jsonify({"messages": {"0": {"text": [dict(row) for row in db.fetch(roll)]}}})
 
 # Run app
 if __name__ == "__main__":
