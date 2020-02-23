@@ -12,7 +12,15 @@ from models import Model
 # Init app
 app = Flask(__name__)
 db = Model("result_info.db")
-import routes
+
+@app.route('/')
+def root():
+    # return str(db.fetch())
+    return render_template('index.html')
+
+@app.route("/<roll>")
+def search(roll):
+    return jsonify({"messages": [dict(row) for row in db.fetch(roll)]})
 
 # Run app
 if __name__ == "__main__":
