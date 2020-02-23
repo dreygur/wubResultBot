@@ -1,6 +1,5 @@
 import os
 import sys
-import sqlite3
 from flask import Flask, jsonify, render_template
 
 # Stop writing Object Code
