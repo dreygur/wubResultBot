@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 from flask import Flask, jsonify, render_template
 
 # Stop writing Object Code
@@ -19,7 +20,8 @@ def root():
 
 @app.route("/<roll>")
 def search(roll):
-    return jsonify({"messages": {"0": {"text": [dict(row) for row in db.fetch(roll)]}}})
+    result = json.dumps([dict(row) for row in db.fetch(roll)][0])
+    return jsonify({"messages": [{"text": result[11:-2]}]})
 
 # Run app
 if __name__ == "__main__":
