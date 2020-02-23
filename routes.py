@@ -1,5 +1,5 @@
-from app import app, db
-from flask import Blueprint, jsonify, render_template
+from app import db, app
+from flask import jsonify, render_template
 
 @app.route('/')
 def root():
