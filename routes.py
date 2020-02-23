@@ -1,7 +1,5 @@
-from app import db
+from app import app, db
 from flask import Blueprint, jsonify, render_template
-
-route = Blueprint('routes', __name__, template_folder='templates')
 
 @app.route('/')
 def root():
