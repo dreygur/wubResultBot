@@ -6,6 +6,7 @@ Provides Database Acess to main app
 Copyright@ Rakibul Yeasin <ryeasin03@gmail.com> <@dreygur>
 """
 
+import re
 import os
 import json
 import sqlite3
@@ -34,8 +35,8 @@ class Model:
 
         :param data: Data from DB as db object
         """
-        self.result = json.dumps([dict(row) for row in data][0])
-        self.result = self.result[11:-2].replace('"', '')
+        self.result = json.dumps([dict(row) for row in data])
+        self.result = self.result[2:-2].replace('"', '')
         self.result = self.result.replace(', ', "\n")
 
         return self.result + "\n"
@@ -62,19 +63,25 @@ class Model:
         """
         # Result in string
         self.final_result = ""
+        self.result = ""
+
         # Cursor Object
         self.c = self.db.cursor()
 
+        self.roll_reg_name = self.c.execute("SELECT roll,reg,name FROM `semester1` WHERE roll = '%d'" % int(roll))
+        self.junk_data = self.clean(self.roll_reg_name)
+        print(self.junk_data)
+        # self.final_result += self.junk_data + "\n"
+
         # This is final
-        # for i in range(1, 3):
-        #     self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
-        #     if i == 1:
-        #         self.final_result += "Semester " + str(i) + "\n" + self.clean(self.data)
-        #     else:
-        #         self.roll_reg_name = self.c.execute("SELECT roll,reg,name FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
-        #         self.junk_data = self.clean(self.roll_reg_name)
-        #         self.tmp_data = self.clean(self.data).replace(self.junk_data, "")
-        #         self.final_result += "Semester " + str(i) + "\n" + self.tmp_data
+        for i in range(1, 4):
+            # Cursor Object
+            self.c = self.db.cursor()
+            self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+            self.result += "Semester " + str(i) + "\n" + self.clean(self.data)
+        
+        self.result = self.result.replace(r"{}".format(self.junk_data), "")
+        self.final_result += self.result
 
         # Just to save
         # self.data = self.c.execute("""SELECT * FROM `semester1` AS sm1
@@ -84,10 +91,9 @@ class Model:
         #                                ON sm1.id=sm3.id
         #                                WHERE sm1.roll = %d""" % int(roll))
 
-        for i in range(1, 3):
-            self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
-            self.final_result += "Semester " + str(i) + "\n" + self.clean(self.data)
-
+        # for i in range(1, 3):
+        #     self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+        #     self.final_result += "Semester " + str(i) + "\n" + self.clean(self.data)
         return self.final_result
 
     def insert(self):
