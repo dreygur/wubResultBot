@@ -12,9 +12,10 @@ from flask import Flask, jsonify, render_template
 
 # Project Specific modules
 from models import Model
+from app import app
 
 # Init app
-app = Flask(__name__)
+
 db = Model("result_info.db")
 
 @app.route('/')
