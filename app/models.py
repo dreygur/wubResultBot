@@ -38,7 +38,7 @@ class Model:
         self.result = self.result[11:-2].replace('"', '')
         self.result = self.result.replace(', ', "\n")
 
-        return self.result
+        return self.result + "\n"
 
     def create(self):
         """
@@ -64,15 +64,30 @@ class Model:
         self.final_result = ""
         # Cursor Object
         self.c = self.db.cursor()
-        for i in range(1, 3):
-            self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
-            self.final_result += self.clean(self.data)
+
+        # This is final
+        # for i in range(1, 3):
+        #     self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+        #     if i == 1:
+        #         self.final_result += "Semester " + str(i) + "\n" + self.clean(self.data)
+        #     else:
+        #         self.roll_reg_name = self.c.execute("SELECT roll,reg,name FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+        #         self.junk_data = self.clean(self.roll_reg_name)
+        #         self.tmp_data = self.clean(self.data).replace(self.junk_data, "")
+        #         self.final_result += "Semester " + str(i) + "\n" + self.tmp_data
+
+        # Just to save
         # self.data = self.c.execute("""SELECT * FROM `semester1` AS sm1
         #                                LEFT JOIN `semester2` AS sm2
         #                                ON sm1.id=sm2.id
         #                                LEFT JOIN `semester3` AS sm3
         #                                ON sm1.id=sm3.id
         #                                WHERE sm1.roll = %d""" % int(roll))
+
+        for i in range(1, 3):
+            self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+            self.final_result += "Semester " + str(i) + "\n" + self.clean(self.data)
+
         return self.final_result
 
     def insert(self):
