@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 # Routes
 app.add_url_rule('/', view_func=views.index)
-app.add_url_rule('/result', view_func=views.result_fallback)
+app.add_url_rule('/result/', view_func=views.result_fallback)
 app.add_url_rule('/result/<roll>', view_func=views.result)
 
 if __name__ == "__main__":

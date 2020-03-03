@@ -7,6 +7,7 @@ Copyright@ Rakibul Yeasin <ryeasin03@gmail.com> <@dreygur>
 """
 
 import os
+import json
 import sqlite3
 
 class Model:
@@ -26,6 +27,18 @@ class Model:
         self.base = os.path.abspath(os.path.dirname(__file__))
         self.db = sqlite3.connect(os.path.join(self.base, "db", self.name), check_same_thread=False)
         self.db.row_factory = sqlite3.Row
+
+    def clean(self, data):
+        """
+        Cleans the data we get to string
+
+        :param data: Data from DB as db object
+        """
+        self.result = json.dumps([dict(row) for row in data][0])
+        self.result = self.result[11:-2].replace('"', '')
+        self.result = self.result.replace(', ', "\n")
+
+        return self.result
 
     def create(self):
         """
@@ -47,15 +60,20 @@ class Model:
 
         :param roll: The roll number for the students of whom result should be returned.
         """
+        # Result in string
+        self.final_result = ""
+        # Cursor Object
         self.c = self.db.cursor()
-        # self.data = self.c.execute("SELECT * FROM `semester1` WHERE roll = '%s'" % roll)
-        self.data = self.c.execute("""SELECT * FROM `semester1` AS sm1
-                                       LEFT JOIN `semester2` AS sm2
-                                       ON sm1.id=sm2.id
-                                       LEFT JOIN `semester3` AS sm3
-                                       ON sm1.id=sm3.id
-                                       WHERE sm1.roll = %s""" % roll)
-        return self.data.fetchall()
+        for i in range(1, 3):
+            self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+            self.final_result += self.clean(self.data)
+        # self.data = self.c.execute("""SELECT * FROM `semester1` AS sm1
+        #                                LEFT JOIN `semester2` AS sm2
+        #                                ON sm1.id=sm2.id
+        #                                LEFT JOIN `semester3` AS sm3
+        #                                ON sm1.id=sm3.id
+        #                                WHERE sm1.roll = %d""" % int(roll))
+        return self.final_result
 
     def insert(self):
         """
