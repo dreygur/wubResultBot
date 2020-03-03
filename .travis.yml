@@ -10,7 +10,9 @@ python:
 
 cache: pip
 
-script: "gunicorn --chdir app app:app --log-file=-"
+script: flask test
 
 before_script:
     - python3 -m pip install -r requirements.txt
+    - export FLASK_APP="$TRAVIS_BUILD_DIR/app.py"
+    - export FLASK_DEBUG=1
