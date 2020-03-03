@@ -1,4 +1,4 @@
-# WUB Result Bot
+# WUB Result Bot [![Build Status](https://travis-ci.com/dreygur/wubResultBot.svg?token=eWxPbQig1xhUqhPrMFx5&branch=master)](https://travis-ci.com/dreygur/wubResultBot)
 
 This bot aims to provide student's grade over facebook messenger platform as text message using chatfuel and heruko services.
 This is a fun project and it will not actively maintained.

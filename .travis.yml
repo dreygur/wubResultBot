@@ -1,0 +1,16 @@
+# Build Config for WUB Result Bot on Travis-CI
+
+language: python
+
+os:
+    - linux
+
+python:
+    - 3.8
+
+cache: pip
+
+script: "gunicorn --chdir app app:app --log-file=-"
+
+before_script:
+    - python3 -m pip install -r requirements.txt
