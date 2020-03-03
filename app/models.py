@@ -79,8 +79,10 @@ class Model:
             self.c = self.db.cursor()
             self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
             self.result += "Semester " + str(i) + "\n" + self.clean(self.data)
-        
-        self.result = self.result.replace(r"{}".format(self.junk_data), "")
+
+        self.result = re.sub(
+            r"(ROLL:|ID:).([a-zA-z0-9:/])+\s([0-9]+\\n[a-zA-Z]+:\s[a-zA-Z0-9/]+\\n[a-zA-Z]+:\s[a-zA-Z\s]+\\n)",
+            "", self.result)
         self.final_result += self.result
 
         # Just to save
