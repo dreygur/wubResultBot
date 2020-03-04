@@ -70,7 +70,6 @@ class Model:
 
         self.roll_reg_name = self.c.execute("SELECT roll,reg,name FROM `semester1` WHERE roll = '%d'" % int(roll))
         self.junk_data = self.clean(self.roll_reg_name)
-        print(self.junk_data)
         # self.final_result += self.junk_data + "\n"
 
         # This is final
@@ -78,12 +77,15 @@ class Model:
             # Cursor Object
             self.c = self.db.cursor()
             self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
-            self.result += "Semester " + str(i) + "\n" + self.clean(self.data)
+            self.result += "Semester " + str(i) + ":\n" + self.clean(self.data)
 
-        self.result = re.sub(
-            r"(ROLL:|ID:).([a-zA-z0-9:/])+\s([0-9]+\\n[a-zA-Z]+:\s[a-zA-Z0-9/]+\\n[a-zA-Z]+:\s[a-zA-Z\s]+\\n)",
-            "", self.result)
-        self.final_result += self.result
+        # Search Pattern
+        self.regex = r"ID:.([a-zA-z0-9:/]).([a-zA-z0-9:/])+\s([0-9a-zA-Z\n]+:\s[a-zA-Z0-9/]+\n[a-zA-Z]+:\s[a-zA-Z\s]+\n)"
+        print(r"{0}".format(self.result))
+        # Replacing ID,ROLL,REG and NAME from Result
+        self.cleaned = re.sub(self.regex, "", self.result, re.MULTILINE)
+        # Finally join the cleaned Result with Student info
+        self.final_result += self.cleaned
 
         # Just to save
         # self.data = self.c.execute("""SELECT * FROM `semester1` AS sm1
@@ -96,6 +98,7 @@ class Model:
         # for i in range(1, 3):
         #     self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
         #     self.final_result += "Semester " + str(i) + "\n" + self.clean(self.data)
+
         return self.final_result
 
     def insert(self):
