@@ -70,7 +70,7 @@ class Model:
 
         self.roll_reg_name = self.c.execute("SELECT roll,reg,name FROM `semester1` WHERE roll = '%d'" % int(roll))
         self.junk_data = self.clean(self.roll_reg_name)
-        # self.final_result += self.junk_data + "\n"
+        self.final_result += self.junk_data + "\n"
 
         # This is final
         for i in range(1, 4):
@@ -80,10 +80,9 @@ class Model:
             self.result += "Semester " + str(i) + ":\n" + self.clean(self.data)
 
         # Search Pattern
-        self.regex = r"ID:.([a-zA-z0-9:/]).([a-zA-z0-9:/])+\s([0-9a-zA-Z\n]+:\s[a-zA-Z0-9/]+\n[a-zA-Z]+:\s[a-zA-Z\s]+\n)"
-        print(r"{0}".format(self.result))
+        self.regex = r"^(id|roll|reg|name).*\n"
         # Replacing ID,ROLL,REG and NAME from Result
-        self.cleaned = re.sub(self.regex, "", self.result, re.MULTILINE)
+        self.cleaned = re.sub(self.regex, "", self.result, flags=re.MULTILINE)
         # Finally join the cleaned Result with Student info
         self.final_result += self.cleaned
 
