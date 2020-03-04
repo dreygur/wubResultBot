@@ -76,8 +76,9 @@ class Model:
         for i in range(1, 4):
             # Cursor Object
             self.c = self.db.cursor()
+            # SQLITE Code Snippet
             self.data = self.c.execute("SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
-            self.result += "Semester " + str(i) + ":\n" + self.clean(self.data)
+            self.result += "\nSemester " + str(i) + ":\n" + self.clean(self.data)
 
         # Search Pattern
         self.regex = r"^(id|roll|reg|name).*\n"
