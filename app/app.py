@@ -1,6 +1,7 @@
 import os
 import sys
 from flask import Flask
+from flask_cors import CORS
 
 # Stop writing Object Code
 sys.dont_write_bytecode = True
@@ -11,6 +12,9 @@ from views import db
 
 # app Initialization
 app = Flask(__name__)
+
+# Allow CORS Policy
+cors = CORS(app, resources={r"/web/*": {"origins": "*"}})
 
 # Routes
 app.add_url_rule('/', view_func=views.index)
