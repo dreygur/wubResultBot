@@ -29,5 +29,6 @@ def result(roll):
 
 def webresult(roll):
     result = db.fetch(roll)
+    result = result.upper()
     return jsonify(result)
     # return result

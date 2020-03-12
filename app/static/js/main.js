@@ -26,4 +26,5 @@ submit.onclick = function () {
 
     });
     // console.log(keyword);
+    // result.replace(/\n/g, "<br />")
 };
