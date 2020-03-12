@@ -14,10 +14,16 @@ submit.onclick = function () {
     fetch(url + search.value).then((res) => {
         return res.json();
     }).then((data) => {
-        var result = JSON.parse(data);
+        // var result = JSON.parse(data);
         // var result = JSON.stringify(data);
-        body.innerText = result;
+        // body.innerText = data;
         console.log(data);
+
+        Swal.fire({
+            title: 'Result',
+            html: data.replace(/\n/g, "<br />")
+        });
+
     });
     // console.log(keyword);
 };
