@@ -28,6 +28,6 @@ def result(roll):
     return jsonify({"messages": [{"text": result}]})
 
 def webresult(roll):
-    result = db.fetch(roll)
-    result = result.upper()
+    result = db.webfetch(roll)
     return jsonify(result)
+    # return result

@@ -113,3 +113,38 @@ class Model:
         Closes opened Database.
         """
         self.db.close()
+
+    def webfetch(self, roll):
+        """
+        To fetch desired data from Database (For Frontend)
+
+        :param roll: The roll number for the students of whom result should be returned.
+        """
+        # Result in string
+        self.final_result = ""
+        self.result = ""
+
+        # Cursor Object
+        self.c = self.db.cursor()
+
+        self.roll_reg_name = self.c.execute(
+            "SELECT roll,reg,name FROM `semester1` WHERE roll = '%d'" % int(roll))
+        self.junk_data = json.dumps([dict(row) for row in self.roll_reg_name])
+        self.final_result += self.junk_data
+
+        # This is final
+        for i in range(1, 4):
+            # Cursor Object
+            self.c = self.db.cursor()
+            # SQLITE Code Snippet
+            self.data = self.c.execute(
+                "SELECT * FROM `semester%d` WHERE roll = '%d'" % (int(i), int(roll)))
+            self.result += "\nSemester " + \
+                str(i) + ":\n" + json.dumps([dict(row) for row in self.data])
+
+        # Search Pattern
+        self.regex = r"^(id|roll|reg|name).*\n"
+        # Replacing ID,ROLL,REG and NAME from Result
+        self.cleaned = re.sub(self.regex, "", self.result, flags=re.MULTILINE)
+
+        return self.final_result[1:-1]
