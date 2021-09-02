@@ -18,6 +18,6 @@ or to run using gunicorn:
 gunicorn --chdir app app:app --log-file=-
 ```
 
-Maintainer [Rakibul Yeasin](https://www.facebook.com/dreygur) & [Mohammad Rohel](https://www.facebook.com/null.rohel)
+Maintainer [Rakibul Yeasin](https://www.facebook.com/dreygur)
 
 Created with :heart: ash burned in :fire:
